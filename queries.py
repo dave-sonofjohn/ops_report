@@ -110,3 +110,53 @@ OPS_INCIDENTS_QUERY3 = 'SELECT\
     SUM(CASE WHEN inc_type = \'Other\' THEN 1 ELSE 0 END)\
     FROM ops_inc_tracking\
     WHERE kobold_resp = \'Yes\';'
+
+HEADER_QUERY = 'SELECT\
+    SUM(CASE WHEN fjs_id IS NOT NULL THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN num_trips > 1 THEN 1 ELSE 0 END),\
+    SUM(time_inhole),\
+    SUM(unacc_time),\
+    SUM(tmd) * 2,\
+    SUM(tot_frac_tons),\
+    SUM(num_stages)\
+    FROM fj_summ_2019;'
+
+NUM_TRIPS_QUERY = 'SELECT\
+    SUM(CASE WHEN num_trips = 1 THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN num_trips = 2 THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN num_trips = 3 THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN num_trips > 3 THEN 1 ELSE 0 END)\
+    FROM fj_summ_2019;'
+
+STAGES_BRKDWN_QUERY = 'SELECT\
+    SUM(num_stages),\
+    SUM(tot_so),\
+    SUM(tot_cut),\
+    SUM(tot_abdn),\
+    SUM(tot_leak),\
+    SUM(tot_popt),\
+    SUM(tot_misloc)\
+    FROM fj_summ_2019;'
+
+JOB_DEPTH_QUERY = 'SELECT\
+    SUM(CASE WHEN tmd <= 1000 THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN tmd > 1000 AND  tmd <= 2000 THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN tmd > 2000 AND tmd <= 3000 THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN tmd > 3000 AND tmd <= 4000 THEN 1 ELSE 0 END),\
+    SUM(CASE WHEN tmd > 4000 THEN 1 ELSE 0 END)\
+    FROM fj_summ_2019;'
+
+JOB_FORMATION_QUERY = 'SELECT\
+    DISTINCT(job_form),\
+    SUM(CASE WHEN fjs_id IS NOT NULL THEN 1 ELSE 0 END)\
+    FROM fj_summ_2019\
+    WHERE job_form IS NOT NULL GROUP BY job_form;'
+
+STAGE_TIME_QUERY = 'SELECT\
+    DISTINCT(cl.client_name),\
+    CAST((ROUND(AVG(fjs.avg_frac_time), 2)) AS DECIMAL(5,2)),\
+    CAST((ROUND(AVG(fjs.avg_btwn_time), 2)) AS DECIMAL(5,2))\
+    FROM fj_summ_2019 AS fjs\
+    LEFT JOIN clients AS cl ON fjs.client_id = cl.client_id\
+    WHERE fjs.client_id IS NOT NULL\
+    GROUP BY cl.client_name;'
