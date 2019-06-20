@@ -1,27 +1,27 @@
 
 def build_trailer_query1(query_range):
     return 'SELECT\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Frac Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Reopen Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Install\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Acidizing Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Other Service\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Off\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Maintenance\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trailer_tracking.tr_status = \'Standby\' THEN 1 ELSE 0 END)\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Frac Job\' THEN 1 ELSE 0 END) AS \'Frac Job\',\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Reopen Job\' THEN 1 ELSE 0 END) AS \'Reopen Job\',\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Install\' THEN 1 ELSE 0 END) AS \'Install Job\',\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Acidizing Job\' THEN 1 ELSE 0 END) AS \'Acidizing Job\',\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Other Service\' THEN 1 ELSE 0 END) AS \'Other Service\',\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Off\' THEN 1 ELSE 0 END) AS \'Off\',\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Maintenance\' THEN 1 ELSE 0 END) AS \'Maintenance\',\
+        SUM(CASE WHEN trailer_tracking.tr_status = \'Standby\' THEN 1 ELSE 0 END) AS \'Standby\'\
         FROM trailer_tracking WHERE track_date >= \'{0}\'\
         AND track_date <= \'{1}\';'.format(query_range['start'], query_range['end'])
 
 def build_trailer_query2(query_range):
-    return 'SELECT\
-        SUM(CASE WHEN trtk.tr_status = \'Frac Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trtk.tr_status = \'Reopen Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trtk.tr_status = \'Install\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trtk.tr_status = \'Acidizing Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trtk.tr_status = \'Other Service\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trtk.tr_status = \'Off\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trtk.tr_status = \'Maintenance\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN trtk.tr_status = \'Standby\' THEN 1 ELSE 0 END)\
+    return 'SELECT tr.tr_num AS \'index\',\
+        SUM(CASE WHEN trtk.tr_status = \'Frac Job\' THEN 1 ELSE 0 END) AS \'Frac Job\',\
+        SUM(CASE WHEN trtk.tr_status = \'Reopen Job\' THEN 1 ELSE 0 END) AS \'Reopen Job\',\
+        SUM(CASE WHEN trtk.tr_status = \'Install\' THEN 1 ELSE 0 END) AS \'Install Job\',\
+        SUM(CASE WHEN trtk.tr_status = \'Acidizing Job\' THEN 1 ELSE 0 END) AS \'Acidizing Job\',\
+        SUM(CASE WHEN trtk.tr_status = \'Other Service\' THEN 1 ELSE 0 END) AS \'Other Service\',\
+        SUM(CASE WHEN trtk.tr_status = \'Off\' THEN 1 ELSE 0 END) AS \'Off\',\
+        SUM(CASE WHEN trtk.tr_status = \'Maintenance\' THEN 1 ELSE 0 END) AS \'Maintenance\',\
+        SUM(CASE WHEN trtk.tr_status = \'Standby\' THEN 1 ELSE 0 END) AS \'Standby\'\
         FROM trailer_tracking as trtk\
         JOIN trailers AS tr ON tr.tr_id = trtk.tr_id\
         WHERE trtk.track_date >= \'{0}\' AND trtk.track_date <= \'{1}\'\
@@ -29,38 +29,39 @@ def build_trailer_query2(query_range):
 
 def build_manpower_query1(query_range):
     return 'SELECT\
-        SUM(CASE WHEN mpwr.emp_status = \'Frac Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Reopen Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Install\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Acidizing Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Other Service\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Off\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Unavailable\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Standby - Billable\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Standby - Non Billable\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Training\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Training - Field\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Mob\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'DeMob\' THEN 1 ELSE 0 END)\
+        SUM(CASE WHEN mpwr.emp_status = \'Frac Job\' THEN 1 ELSE 0 END) AS \'Frac Job\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Reopen Job\' THEN 1 ELSE 0 END) AS \'Reopen Job\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Install\' THEN 1 ELSE 0 END) AS \'Install\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Acidizing Job\' THEN 1 ELSE 0 END) AS \'Acidizing Job\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Other Service\' THEN 1 ELSE 0 END) AS \'Other Service\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Off\' THEN 1 ELSE 0 END) AS \'Off\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Unavailable\' THEN 1 ELSE 0 END) AS \'Unavailable\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Standby - Billable\' THEN 1 ELSE 0 END) AS \'Standby - Billable\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Standby - Non Billable\' THEN 1 ELSE 0 END) AS \'Standby - Non Billable\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Training\' THEN 1 ELSE 0 END) AS \'Training\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Training - Field\' THEN 1 ELSE 0 END) AS \'Training - Field\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Mob\' THEN 1 ELSE 0 END) AS \'Mob\',\
+        SUM(CASE WHEN mpwr.emp_status = \'DeMob\' THEN 1 ELSE 0 END) AS \'DeMob\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Office Work\' THEN 1 ELSE 0 END) AS \'Office Work\'\
         FROM mpwr_tracking as mpwr\
         WHERE mpwr.track_date >= \'{0}\' AND mpwr.track_date <= \'{1}\';'.format(query_range['start'], query_range['end'])
 
 def build_manpower_query2(query_range):
-    return 'SELECT\
-        SUM(CASE WHEN mpwr.emp_status = \'Frac Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Reopen Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Install\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Acidizing Job\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Other Service\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Off\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Unavailable\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Standby - Billable\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Standby - Non Billable\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Training\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Training - Field\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Mob\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'DeMob\' THEN 1 ELSE 0 END),\
-        SUM(CASE WHEN mpwr.emp_status = \'Office Work\' THEN 1 ELSE 0 END)\
+    return 'SELECT emp.emp_name AS \'index\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Frac Job\' THEN 1 ELSE 0 END) AS \'Frac Job\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Reopen Job\' THEN 1 ELSE 0 END) AS \'Reopen Job\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Install\' THEN 1 ELSE 0 END) AS \'Install\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Acidizing Job\' THEN 1 ELSE 0 END) AS \'Acidizing Job\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Other Service\' THEN 1 ELSE 0 END) AS \'Other Service\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Off\' THEN 1 ELSE 0 END) AS \'Off\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Unavailable\' THEN 1 ELSE 0 END) AS \'Unavailable\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Standby - Billable\' THEN 1 ELSE 0 END) AS \'Standby - Billable\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Standby - Non Billable\' THEN 1 ELSE 0 END) AS \'Standby - Non Billable\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Training\' THEN 1 ELSE 0 END) AS \'Training\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Training - Field\' THEN 1 ELSE 0 END) AS \'Training - Field\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Mob\' THEN 1 ELSE 0 END) AS \'Mob\',\
+        SUM(CASE WHEN mpwr.emp_status = \'DeMob\' THEN 1 ELSE 0 END) AS \'DeMob\',\
+        SUM(CASE WHEN mpwr.emp_status = \'Office Work\' THEN 1 ELSE 0 END) AS \'Office Work\'\
         FROM mpwr_tracking as mpwr\
         JOIN field_emp AS emp ON mpwr.emp_id = emp.emp_id\
         WHERE mpwr.track_date >= \'{0}\' AND mpwr.track_date <= \'{1}\'\
