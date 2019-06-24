@@ -60,40 +60,39 @@ def build_manpower_dataset2(query_range):
     return(manpower_dataset2)
 
 def build_ops_incidents_dataset1(query_range):
-    ops_incidents_dataset1 = build_dataset(queries.build_ops_incidents_query1(query_range))
+    ops_incidents_dataset1 = build_dataset_1D(queries.build_ops_incidents_query1(query_range))
     return(ops_incidents_dataset1)
 
 def build_ops_incidents_dataset2(query_range):
-    ops_incidents_dataset2 = build_dataset(queries.build_ops_incidents_query2(query_range))
+    ops_incidents_dataset2 = build_dataset_2D(queries.build_ops_incidents_query2(query_range))
     return(ops_incidents_dataset2)
 
 def build_ops_incidents_dataset3(query_range):
-    ops_incidents_dataset3 = build_dataset(queries.build_ops_incidents_query3(query_range))
+    ops_incidents_dataset3 = build_dataset_1D(queries.build_ops_incidents_query3(query_range))
     return(ops_incidents_dataset3)
 
 def build_header_dataset(query_range):
-    header_dataset = build_dataset(queries.build_header_query(query_range))
+    header_dataset = build_dataset_1D(queries.build_header_query(query_range))
     return(header_dataset)
 
 def build_num_trips_dataset(query_range):
-    num_trips_dataset = build_dataset(queries.build_num_trips_query(query_range))
-    
+    num_trips_dataset = build_dataset_1D(queries.build_num_trips_query(query_range))
     return(num_trips_dataset)
 
 def build_stages_brkdwn_dataset(query_range):
-    stages_brkdwn_dataset = build_dataset(queries.build_stages_brkdwn_query(query_range))    
+    stages_brkdwn_dataset = build_dataset_1D(queries.build_stages_brkdwn_query(query_range))    
     return(stages_brkdwn_dataset)
 
 def build_job_depth_dataset(query_range):
-    job_depth_dataset = build_dataset(queries.build_job_depth_query(query_range))
+    job_depth_dataset = build_dataset_1D(queries.build_job_depth_query(query_range))
     return(job_depth_dataset)
 
 def build_job_formation_dataset(query_range):
-    job_formation_dataset = build_dataset(queries.build_job_formation_query(query_range))
+    job_formation_dataset = build_dataset_2D(queries.build_job_formation_query(query_range))
     return(job_formation_dataset)
 
 def build_stage_time_dataset(query_range):
-    stage_time_dataset = build_dataset(queries.build_stage_time_query(query_range))
+    stage_time_dataset = build_dataset_2D(queries.build_stage_time_query(query_range))
     return(stage_time_dataset)
 
 
