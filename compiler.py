@@ -9,6 +9,7 @@ class Report:
     
     def build_trailer_visual1(self):        
         trailer_dataset1 = db_conn.build_trailer_dataset1(self.query_range)
+        print('\n')
         print(trailer_dataset1)
         print('\n')
 
