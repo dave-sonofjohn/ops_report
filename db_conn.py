@@ -29,9 +29,10 @@ class DBConn:
         self.cursor.execute(self.query)
         rows = np.array(self.cursor.fetchall())
         df = pd.DataFrame(data=rows)
-        df = df.convert_objects(convert_numeric=True)
+        
         df.columns = [ x[0] for x in self.cursor.description ]
         df = df.set_index(['index']) 
+        df = df.apply(pd.to_numeric)
         df = df.loc[:, (df != 0).any(axis=0)]       
         return(df)
 
