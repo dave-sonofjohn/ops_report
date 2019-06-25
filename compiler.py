@@ -3,6 +3,7 @@ import argparse
 import queries
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 
 class DonutChart:
     def __init__(self, title, labels, values, d_type):
@@ -26,11 +27,60 @@ class DonutChart:
         plt.show()
 
 class BarChart:
-    def __init__():
-        pass
+    def __init__(self, title, ds, y_axis=None, x_axis=None):
+        self.title = title
+        self.ds = ds
+        self.x_axis = x_axis
+        self.y_axis = y_axis
 
-    def build(self):
-        pass
+    def build_mult(self):
+        c_labels = self.ds.columns.values 
+        colors = ['royalblue', 'red', 'orange', 'green', 'purple', 'deepskyblue', 'deeppink', 'limegreen', 'firebrick']
+        x_labels = self.ds.index
+        sizes = self.ds.head(5).values
+
+        fig, axes = plt.subplots(ncols=sizes.shape[0], figsize=(10, 5), sharey=True)
+        plt.gcf().subplots_adjust(bottom=0.2)
+        for ax, height, title in zip(axes, sizes, x_labels):
+            ax.set_title(title)
+
+            left = np.arange(len(height)) + 1
+            ax.bar(left, height, color=colors)
+            ax.set_ylabel(self.y_axis, fontsize=8)
+            ax.set_xticks(left)
+            ax.set_xticklabels(c_labels, rotation=45, rotation_mode='anchor', ha='right')
+
+        plt.show()
+
+    def build_hz(self):
+        plt.rcdefaults()
+        fig, ax = plt.subplots(figsize=(8,4))
+        plt.gcf().subplots_adjust(left=0.25, right=0.9, top=0.9)
+
+        labels = list(self.ds.index)
+        y_pos = np.arange(len(labels))
+        values = list(self.ds.values)
+        error = np.random.rand(len(values))
+                
+        ax.barh(y_pos, values, align='center', xerr=error)
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(labels)
+        ax.invert_yaxis()
+        ax.set_ylabel(self.y_axis)
+        ax.set_xlabel(self.x_axis)
+        ax.set_title(self.title)
+
+        plt.show()
+
+    def build_single(self):
+        ax = self.ds[list(self.ds.columns.values)].plot(kind='bar', width=0.5, align='center', title=self.title, figsize=(12, 9), legend=True, fontsize=8)
+        ax.set_xlabel(self.x_axis, fontsize=8)
+        ax.set_ylabel(self.y_axis, fontsize=8)
+        plt.gcf().subplots_adjust(left=0.1, right=0.8, top=0.9)
+        plt.legend(loc=(1.04,0))
+        plt.show()
+        
+        
 
 class Report:
     def __init__(self, args):
@@ -47,8 +97,10 @@ class Report:
         
     def build_trailer_visual2(self):
         trailer_dataset2 = db_conn.build_trailer_dataset2(self.query_range)
-        print(trailer_dataset2)
-        print('\n')
+        for k, data_group in trailer_dataset2.groupby(np.arange(len(trailer_dataset2))//5):
+            title = 'Utlization by Trailer Nunmber'
+            emp_barchart = BarChart(title, data_group, 'Days', 'Trailer Number')
+            emp_barchart.build_mult()
 
     def build_manpower_visual1(self):
         manpower_dataset1 = db_conn.build_manpower_dataset1(self.query_range)
@@ -59,42 +111,48 @@ class Report:
         mpwr_donut = DonutChart(title, labels, values, d_type)
         mpwr_donut.build()
     
-
     def build_manpower_visual2(self):
         manpower_dataset2 = db_conn.build_manpower_dataset2(self.query_range)
-        print(manpower_dataset2)
-        print('\n')
+        for k, data_group in manpower_dataset2.groupby(np.arange(len(manpower_dataset2))//5):
+            title = 'Utlization by Field Hand'
+            emp_barchart = BarChart(title, data_group, 'Days', 'Field Employee')
+            emp_barchart.build_mult()
 
     def build_ops_incidents_visual1(self):
         ops_incidents_dataset1 = db_conn.build_ops_incidents_dataset1(self.query_range)
-        print(ops_incidents_dataset1)
-        print('\n')
+        title = 'Operations Incidents By Severity'
+        ops_barchart1 = BarChart(title, ops_incidents_dataset1, 'Number', 'Incident Type')
+        ops_barchart1.build_hz()
+        
 
     def build_ops_incidents_visual2(self):
         ops_incidents_dataset2 = db_conn.build_ops_incidents_dataset2(self.query_range)
-        print(ops_incidents_dataset2)
-        print('\n')
+        title = 'Ops Incidents Month Over Month'
+        ops_barchart2 = BarChart(title, ops_incidents_dataset2, 'Number Of Incidents', 'Month')
+        ops_barchart2.build_single()
+        
 
     def build_ops_incidents_visual3(self):
         ops_incidents_dataset3 = db_conn.build_ops_incidents_dataset3(self.query_range)
-        print(ops_incidents_dataset3)
-        print('\n')
+        title = 'Operations Incidents By Incident Type'
+        ops_barchart3 = BarChart(title, ops_incidents_dataset3, 'Number Of Incidents', 'Month')
+        ops_barchart3.build_hz()
 
     def build_header_visual(self):
         header_dataset = db_conn.build_header_dataset(self.query_range)
-        print(header_dataset)
-        print('\n')
-
+            
     def build_num_trips_visual(self):
         num_trips_dataset = db_conn.build_num_trips_dataset(self.query_range)
-        print(num_trips_dataset)
-        print('\n')
+        title = 'Frac Jobs By Number Of Trips'
+        num_trips_barchart = BarChart(title, num_trips_dataset, 'Kobold Tool Trip Count', 'Job Count')
+        num_trips_barchart.build_hz()
         
     def build_stages_breakdown_visual(self):
         stages_brkdwn_dataset = db_conn.build_stages_brkdwn_dataset(self.query_range)
-        print(stages_brkdwn_dataset)
-        print('\n')
-
+        title = 'Frac Metrics By Stage'
+        stages_brkdwn_barchart = BarChart(title, stages_brkdwn_dataset, None, 'Stage Count')
+        stages_brkdwn_barchart.build_hz()
+        
     def build_job_depth_visual(self):
         job_depth_dataset = db_conn.build_job_depth_dataset(self.query_range)
         title = 'Frac Jobs By Well Depth'
@@ -114,8 +172,11 @@ class Report:
         jf_donut.build()
         
     def build_stage_time_visual(self):
-        build_stage_time_dataset = db_conn.build_stage_time_dataset(self.query_range)
-        print('\n')
+        stage_time_dataset = db_conn.build_stage_time_dataset(self.query_range)
+        title = 'Avg Frac, Interval Time By Client'
+        stage_time_barchart = BarChart(title, stage_time_dataset, 'Time (min)', 'Client')
+        stage_time_barchart.build_single()
+        
 
 
 def get_data_range():
@@ -134,17 +195,17 @@ def get_data_range():
 if __name__ == "__main__":
     args = get_data_range()
     report = Report(args)
-    report.build_trailer_visual1()
-    # report.build_trailer_visual2()
-    report.build_manpower_visual1()
-    # report.build_manpower_visual2()
-    # report.build_ops_incidents_visual1()
-    # report.build_ops_incidents_visual2()
-    # report.build_ops_incidents_visual3()
-    # report.build_header_visual()
-    # report.build_num_trips_visual()
-    # report.build_stages_breakdown_visual()
-    report.build_job_depth_visual()
+    report.build_trailer_visual1() 
+    report.build_trailer_visual2() 
+    report.build_manpower_visual1() 
+    report.build_manpower_visual2() 
+    report.build_ops_incidents_visual1() 
+    report.build_ops_incidents_visual2() 
+    report.build_ops_incidents_visual3()
+    report.build_header_visual()
+    report.build_num_trips_visual() 
+    report.build_stages_breakdown_visual()
+    report.build_job_depth_visual() 
     report.build_job_formation_visual()
     report.build_stage_time_visual()
     
