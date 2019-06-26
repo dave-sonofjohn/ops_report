@@ -13,10 +13,14 @@ class DonutChart:
         self.d_type = d_type
 
     def build(self):
-        formatted_labels = ['{0} - {1} {2}'.format(i, j, self.d_type) for i,j in zip(self.labels, self.values)]  
-
         patches, texts = plt.pie(self.values, startangle=90)
-        plt.legend(patches, formatted_labels, loc="best")
+
+        pct_list = []
+        for i in range(len(self.values)):
+            pct_list.append(round((self.values[i]/sum(self.values))*100, 2))
+
+        formatted_labels = ['{0} - {1} {2} ({3} %)'.format(i, j, self.d_type, k) for i,j, k in zip(self.labels, self.values, pct_list)]  
+        plt.legend(patches, formatted_labels, loc="lower right")
         plt.title('{}'.format(self.title))
         
         centre_circle = plt.Circle((0,0),0.70,fc='white')
@@ -135,7 +139,7 @@ class Report:
     def build_ops_incidents_visual3(self):
         ops_incidents_dataset3 = db_conn.build_ops_incidents_dataset3(self.query_range)
         title = 'Operations Incidents By Incident Type'
-        ops_barchart3 = BarChart(title, ops_incidents_dataset3, 'Number Of Incidents', 'Month')
+        ops_barchart3 = BarChart(title, ops_incidents_dataset3, 'Incident Type', 'Number Of Incidents')
         ops_barchart3.build_hz()
 
     def build_header_visual(self):
@@ -143,7 +147,7 @@ class Report:
             
     def build_num_trips_visual(self):
         num_trips_dataset = db_conn.build_num_trips_dataset(self.query_range)
-        title = 'Frac Jobs By Number Of Trips'
+        title = 'Frac Jobs By Number Of Kobold Tool Trips'
         num_trips_barchart = BarChart(title, num_trips_dataset, 'Kobold Tool Trip Count', 'Job Count')
         num_trips_barchart.build_hz()
         
@@ -196,16 +200,16 @@ if __name__ == "__main__":
     args = get_data_range()
     report = Report(args)
     report.build_trailer_visual1() 
-    report.build_trailer_visual2() 
+    # report.build_trailer_visual2() 
     report.build_manpower_visual1() 
-    report.build_manpower_visual2() 
-    report.build_ops_incidents_visual1() 
-    report.build_ops_incidents_visual2() 
-    report.build_ops_incidents_visual3()
-    report.build_header_visual()
-    report.build_num_trips_visual() 
-    report.build_stages_breakdown_visual()
+    # report.build_manpower_visual2() 
+    # report.build_ops_incidents_visual1() 
+    # report.build_ops_incidents_visual2() 
+    # report.build_ops_incidents_visual3()
+    # report.build_header_visual()
+    # report.build_num_trips_visual() 
+    # report.build_stages_breakdown_visual()
     report.build_job_depth_visual() 
     report.build_job_formation_visual()
-    report.build_stage_time_visual()
+    # report.build_stage_time_visual()
     
