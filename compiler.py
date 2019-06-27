@@ -65,17 +65,20 @@ class BarChart:
         labels = list(self.ds.index)
         y_pos = np.arange(len(labels))
         values = list(self.ds.values)
-        error = np.random.rand(len(values))
                 
-        ax.barh(y_pos, values, align='center', xerr=error)
+        ax.barh(y_pos, values, align='center')
         ax.set_yticks(y_pos)
         ax.set_yticklabels(labels)
-        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+        
         ax.invert_yaxis()
         ax.set_ylabel(self.y_axis)
         ax.set_xlabel(self.x_axis)
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
         ax.set_title(self.title)
+        ax.set_xlim(0, 1.25*(max(self.ds.values)))
+
+        for i in ax.patches:
+            ax.text(i.get_width()+.3, i.get_y()+.43, str(i.get_width()))
 
         plt.show()
 
@@ -90,9 +93,6 @@ class BarChart:
 
         plt.gcf().subplots_adjust(left=0.1, right=0.75, top=0.9)
         plt.legend(loc=(1.04,0))
-
-        for i in ax.patches:
-            print(i)
 
         for i in ax.patches:
             ax.text(i.get_x()+0.5*(i.get_width()), i.get_height()+.01*(i.get_height()), str(i.get_height()), fontsize=10, color='dimgrey')
@@ -140,7 +140,7 @@ class Report:
     def build_ops_incidents_visual1(self):
         ops_incidents_dataset1 = db_conn.build_ops_incidents_dataset1(self.query_range)
         title = 'Operations Incidents By Severity'
-        ops_barchart1 = BarChart(title, ops_incidents_dataset1, 'Number', 'Incident Type')
+        ops_barchart1 = BarChart(title, ops_incidents_dataset1, 'Count', 'Incident Type')
         ops_barchart1.build_hz()
         
 
@@ -218,13 +218,13 @@ if __name__ == "__main__":
     # report.build_trailer_visual2() 
     # report.build_manpower_visual1() 
     # report.build_manpower_visual2() 
-    # report.build_ops_incidents_visual1() 
-    report.build_ops_incidents_visual2() 
+    report.build_ops_incidents_visual1() 
+    # report.build_ops_incidents_visual2() 
     # report.build_ops_incidents_visual3()
     # report.build_header_visual()
     # report.build_num_trips_visual() 
-    # report.build_stages_breakdown_visual()
+    report.build_stages_breakdown_visual()
     # report.build_job_depth_visual() 
     # report.build_job_formation_visual()
-    report.build_stage_time_visual()
+    # report.build_stage_time_visual()
     
