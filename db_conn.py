@@ -22,6 +22,7 @@ class DBConn:
         names = [ x[0] for x in self.cursor.description ]
         rows = self.cursor.fetchall()
         ds = pd.Series(rows[0], index=names)
+        ds.index = ds.index.astype(str).wrap(6)
         ds = ds[ds!=0]
         return(ds)
 
@@ -29,7 +30,6 @@ class DBConn:
         self.cursor.execute(self.query)
         rows = np.array(self.cursor.fetchall())
         df = pd.DataFrame(data=rows)
-        
         df.columns = [ x[0] for x in self.cursor.description ]
         df = df.set_index(['index']) 
         df = df.apply(pd.to_numeric)

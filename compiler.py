@@ -2,8 +2,9 @@ import db_conn
 import argparse
 import queries
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from textwrap  import wrap
 
 class DonutChart:
     def __init__(self, title, labels, values, d_type):
@@ -69,22 +70,36 @@ class BarChart:
         ax.barh(y_pos, values, align='center', xerr=error)
         ax.set_yticks(y_pos)
         ax.set_yticklabels(labels)
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         ax.invert_yaxis()
         ax.set_ylabel(self.y_axis)
         ax.set_xlabel(self.x_axis)
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
         ax.set_title(self.title)
 
         plt.show()
 
     def build_single(self):
+
         ax = self.ds[list(self.ds.columns.values)].plot(kind='bar', width=0.5, align='center', title=self.title, figsize=(12, 9), legend=True, fontsize=8)
+       
         ax.set_xlabel(self.x_axis, fontsize=8)
+        
         ax.set_ylabel(self.y_axis, fontsize=8)
-        plt.gcf().subplots_adjust(left=0.1, right=0.8, top=0.9)
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
+        plt.gcf().subplots_adjust(left=0.1, right=0.75, top=0.9)
         plt.legend(loc=(1.04,0))
+
+        for i in ax.patches:
+            print(i)
+
+        for i in ax.patches:
+            ax.text(i.get_x()+0.5*(i.get_width()), i.get_height()+.01*(i.get_height()), str(i.get_height()), fontsize=10, color='dimgrey')
+
         plt.show()
         
-        
+            
 
 class Report:
     def __init__(self, args):
@@ -199,17 +214,17 @@ def get_data_range():
 if __name__ == "__main__":
     args = get_data_range()
     report = Report(args)
-    report.build_trailer_visual1() 
+    # report.build_trailer_visual1() 
     # report.build_trailer_visual2() 
-    report.build_manpower_visual1() 
+    # report.build_manpower_visual1() 
     # report.build_manpower_visual2() 
     # report.build_ops_incidents_visual1() 
-    # report.build_ops_incidents_visual2() 
+    report.build_ops_incidents_visual2() 
     # report.build_ops_incidents_visual3()
     # report.build_header_visual()
     # report.build_num_trips_visual() 
     # report.build_stages_breakdown_visual()
-    report.build_job_depth_visual() 
-    report.build_job_formation_visual()
-    # report.build_stage_time_visual()
+    # report.build_job_depth_visual() 
+    # report.build_job_formation_visual()
+    report.build_stage_time_visual()
     
