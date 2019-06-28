@@ -155,7 +155,7 @@ def build_stages_brkdwn_query(query_range):
         SUM(tot_so) AS \'Stages SO\',\
         SUM(tot_cut) AS \'Stages Cut\',\
         SUM(tot_abdn) AS \'Stages Abandonned\',\
-        SUM(tot_leak) AS \'Stages Leaking\',\
+        SUM(tot_leak) AS \'Leaking Sleeves\',\
         SUM(tot_popt) AS \'Number of Pop Thrus\',\
         SUM(tot_misloc) AS \'Number of Mislocates\'\
         FROM fj_summ_2019\
