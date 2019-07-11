@@ -87,7 +87,7 @@ def build_ops_incidents_query2(query_range):
         SUM(CASE WHEN severity = \'Catastrophic\' THEN 1 ELSE 0 END) AS \'Catastrophic\'\
         FROM ops_inc_tracking\
         WHERE kobold_resp = \'Yes\'\
-        AND inc_date >= \'{0}\'\
+        AND inc_date >= DATEADD(month, -2, \'{0}\')\
         AND inc_date <= \'{1}\'\
         GROUP BY DATENAME(month, inc_date)\
         ORDER BY CASE DATENAME(month, inc_date)\

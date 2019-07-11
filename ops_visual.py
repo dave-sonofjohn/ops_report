@@ -3,6 +3,8 @@ import queries
 from donut_chart import DonutChart
 from bar_chart import BarChart
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
 
 
 class Ops_Visual:
@@ -16,7 +18,7 @@ class Ops_Visual:
         values = trailer_dataset1.values.tolist()
         d_type = 'Days'
         tr_donut = DonutChart(title, labels, values, d_type)
-        tr_donut.build()
+        tr_donut = tr_donut.build()
         
     def build_trailer_visual2(self):
         trailer_dataset2 = db_conn.build_trailer_dataset2(self.query_range)
@@ -97,6 +99,3 @@ class Ops_Visual:
         title = 'Avg Frac, Interval Time By Client'
         stage_time_barchart = BarChart(title, stage_time_dataset, 'Time (min)', 'Client')
         stage_time_barchart.build_single()
-        
-
-    

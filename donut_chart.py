@@ -21,8 +21,10 @@ class DonutChart:
         
         centre_circle = plt.Circle((0,0),0.70,fc='white')
         fig = plt.gcf()
+        
         fig.gca().add_artist(centre_circle)
         fig = plt.gcf().subplots_adjust(right=0.5)
-          
+        
         plt.tight_layout()
-        plt.show()
+        
+        return(fig)

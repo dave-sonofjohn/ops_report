@@ -1,4 +1,5 @@
 from ops_visual import Ops_Visual
+from matplotlib.backends.backend_pdf import PdfPages
 import argparse
 
 def get_data_range():
@@ -14,21 +15,36 @@ def get_data_range():
 
     return(date_range)
 
-if __name__ == "__main__":
-    
-    date_range = get_data_range()
-    ops_visual = Ops_Visual(date_range)
+def build_trailer_report():
+    ops_visual.build_trailer_visual1()
+    ops_visual.build_trailer_visual2()
 
-    ops_visual.build_trailer_visual1() 
-    ops_visual.build_trailer_visual2() 
+def build_manpower_report():
     ops_visual.build_manpower_visual1() 
     ops_visual.build_manpower_visual2() 
+
+def build_ops_incidents_report():
     ops_visual.build_ops_incidents_visual1() 
     ops_visual.build_ops_incidents_visual2() 
     ops_visual.build_ops_incidents_visual3()
+
+def build_frac_jobs_report():
     ops_visual.build_header_visual()
     ops_visual.build_num_trips_visual() 
     ops_visual.build_stages_breakdown_visual()
     ops_visual.build_job_depth_visual() 
     ops_visual.build_job_formation_visual()
     ops_visual.build_stage_time_visual()
+
+if __name__ == "__main__":
+    
+    date_range = get_data_range()
+    ops_visual = Ops_Visual(date_range)
+    build_trailer_report()
+    build_manpower_report()
+    build_ops_incidents_report()
+    build_frac_jobs_report()
+    
+    
+    
+    
