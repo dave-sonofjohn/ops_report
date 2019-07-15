@@ -26,5 +26,4 @@ class DonutChart:
         fig = plt.gcf().subplots_adjust(right=0.5)
         
         plt.tight_layout()
-        
-        return(fig)
+        return(plt)

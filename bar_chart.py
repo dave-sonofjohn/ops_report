@@ -34,13 +34,13 @@ class BarChart:
                 for i in ax.patches:
                     ax.set_xticklabels(c_labels, fontsize=7)
                     ax.text(i.get_x(), i.get_height()+.25, str(i.get_height()), fontsize=7)
-                                
-        plt.show()
+                      
+        return(plt)
 
     def build_hz(self):
         plt.rcdefaults()
         fig, ax = plt.subplots(figsize=(8,4))
-        plt.gcf().subplots_adjust(left=0.25, right=0.9, top=0.9)
+        plt.gcf().subplots_adjust(left=0.28, right=0.9, top=0.9)
 
         labels = list(self.ds.index)
         y_pos = np.arange(len(labels))
@@ -65,7 +65,7 @@ class BarChart:
             for i in ax.patches:
                 ax.text(i.get_width()+.3, i.get_y()+.43, str(i.get_width()))
 
-        plt.show()
+        return(plt)
 
     def build_single(self):
 
@@ -83,4 +83,4 @@ class BarChart:
         for i in ax.patches:
             ax.text(i.get_x()+0.3*(i.get_width()), i.get_height()+.01*(i.get_height()), str(i.get_height()), fontsize=10)
 
-        plt.show()
+        return(plt)
