@@ -13,8 +13,7 @@ class BarChart:
         c_labels = self.ds.columns.values 
         colors = ['royalblue', 'red', 'orange', 'green', 'purple', 'deepskyblue', 'deeppink', 'limegreen', 'firebrick']
         x_labels = self.ds.index
-        sizes = self.ds.head(5).values
-
+        sizes = self.ds.head(10).values
         fig, axes = plt.subplots(ncols=sizes.shape[0], figsize=(12, 5), sharey=True)
         plt.gcf().subplots_adjust(bottom=0.2)
 
@@ -34,7 +33,7 @@ class BarChart:
                 for i in ax.patches:
                     ax.set_xticklabels(c_labels, fontsize=7)
                     ax.text(i.get_x(), i.get_height()+.25, str(i.get_height()), fontsize=7)
-                      
+                
         return(plt)
 
     def build_hz(self):
@@ -68,7 +67,7 @@ class BarChart:
         return(plt)
 
     def build_single(self):
-
+        fig, ax = plt.subplots(figsize=(8,4))
         ax = self.ds[list(self.ds.columns.values)].plot(kind='bar', width=0.5, align='center', title=self.title, figsize=(12, 9), legend=True, fontsize=8)
        
         ax.set_xlabel(self.x_axis, fontsize=8)
