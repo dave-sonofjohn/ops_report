@@ -4,6 +4,7 @@ from donut_chart import DonutChart
 from bar_chart import BarChart
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
 
 class Ops_Visual:
@@ -18,7 +19,7 @@ class Ops_Visual:
         d_type = 'Days'
         tr_donut = DonutChart(title, labels, values, d_type)
         plt = tr_donut.build()
-        plt.savefig('pics/trailers/tr1.jpg', dpi='figure')
+        plt.savefig('media/trailers/tr1.jpg', dpi='figure')
         plt.close()
 
     def build_trailer_visual2(self):
@@ -27,7 +28,7 @@ class Ops_Visual:
             title = 'Utlization by Trailer Nunmber'
             emp_barchart = BarChart(title, data_group, 'Days', 'Trailer Number')
             plt = emp_barchart.build_mult()
-            plt.savefig('pics/trailers/tr2_{}.jpg'.format(k), dpi='figure')
+            plt.savefig('media/trailers/tr2_{}.jpg'.format(k), dpi='figure')
             plt.close()
 
     def build_manpower_visual1(self):
@@ -38,7 +39,7 @@ class Ops_Visual:
         d_type = 'Days'
         mpwr_donut = DonutChart(title, labels, values, d_type)
         plt = mpwr_donut.build()
-        plt.savefig('pics/manpower/mp1.jpg')
+        plt.savefig('media/manpower/mp1.jpg')
         plt.close()
     
     def build_manpower_visual2(self):
@@ -47,7 +48,7 @@ class Ops_Visual:
             title = 'Utlization by Field Hand'
             emp_barchart = BarChart(title, data_group, 'Days', 'Field Employee')
             plt = emp_barchart.build_mult()
-            plt.savefig('pics/manpower/mp2_{0}.jpg'.format(k))
+            plt.savefig('media/manpower/mp2_{0}.jpg'.format(k))
             plt.close()
 
     def build_ops_incidents_visual1(self):
@@ -55,7 +56,7 @@ class Ops_Visual:
         title = 'Operations Incidents By Severity'
         ops_barchart1 = BarChart(title, ops_incidents_dataset1, 'Incident Type', 'Count')
         plt = ops_barchart1.build_hz()
-        plt.savefig('pics/ops_incidents/ops1.jpg')
+        plt.savefig('media/ops_incidents/ops1.jpg')
         plt.close()
         
     def build_ops_incidents_visual2(self):
@@ -63,7 +64,7 @@ class Ops_Visual:
         title = 'Ops Incidents Month Over Month'
         ops_barchart2 = BarChart(title, ops_incidents_dataset2, 'Number Of Incidents', 'Month')
         plt = ops_barchart2.build_single()
-        plt.savefig('pics/ops_incidents/ops2.jpg')
+        plt.savefig('media/ops_incidents/ops2.jpg')
         plt.close()
         
     def build_ops_incidents_visual3(self):
@@ -71,18 +72,20 @@ class Ops_Visual:
         title = 'Operations Incidents By Incident Type'
         ops_barchart3 = BarChart(title, ops_incidents_dataset3, 'Incident Type', 'Number Of Incidents')
         plt = ops_barchart3.build_hz()
-        plt.savefig('pics/ops_incidents/ops3.jpg')
+        plt.savefig('media/ops_incidents/ops3.jpg')
         plt.close()
 
-    def build_header_visual(self):
+    def build_header_data(self):
         header_dataset = db_conn.build_header_dataset(self.query_range)
+        header_dataset.to_pickle('./media/header/header_data.pkl')
+        
             
     def build_num_trips_visual(self):
         num_trips_dataset = db_conn.build_num_trips_dataset(self.query_range)
         title = 'Frac Jobs By Number Of Kobold Tool Trips'
         num_trips_barchart = BarChart(title, num_trips_dataset, 'Kobold Tool Trip Count', 'Job Count')
         plt = num_trips_barchart.build_hz()
-        plt.savefig('pics/frac/num_trips.jpg')
+        plt.savefig('media/frac/num_trips.jpg')
         plt.close()
         
     def build_stages_breakdown_visual(self):
@@ -90,7 +93,7 @@ class Ops_Visual:
         title = 'Frac Metrics By Stage'
         stages_brkdwn_barchart = BarChart(title, stages_brkdwn_dataset, None, 'Stage Count')
         plt = stages_brkdwn_barchart.build_hz()
-        plt.savefig('pics/frac/stg_bd.jpg')
+        plt.savefig('media/frac/stg_bd.jpg')
         plt.close()
         
     def build_job_depth_visual(self):
@@ -101,7 +104,7 @@ class Ops_Visual:
         d_type = 'Jobs'
         jd_donut = DonutChart(title, labels, values, d_type)
         plt = jd_donut.build()
-        plt.savefig('pics/frac/job_depths.jpg')
+        plt.savefig('media/frac/job_depths.jpg')
         plt.close()
         
     def build_job_formation_visual(self):
@@ -112,7 +115,7 @@ class Ops_Visual:
         d_type = 'Jobs'
         jf_donut = DonutChart(title, labels, values, d_type)
         plt = jf_donut.build()
-        plt.savefig('pics/frac/job_forms.jpg')
+        plt.savefig('media/frac/job_forms.jpg')
         plt.close()
         
     def build_stage_time_visual(self):
@@ -120,5 +123,5 @@ class Ops_Visual:
         title = 'Avg Frac, Interval Time By Client'
         stage_time_barchart = BarChart(title, stage_time_dataset, 'Time (min)', 'Client')
         plt = stage_time_barchart.build_single()
-        plt.savefig('pics/frac/stg_times.jpg')
+        plt.savefig('media/frac/stg_times.jpg')
         plt.close()
