@@ -18,7 +18,7 @@ class Ops_Visual:
         d_type = 'Days'
         tr_donut = DonutChart(title, labels, values, d_type)
         plt = tr_donut.build()
-        plt.savefig('pics/trailers/tr1.jpg')
+        plt.savefig('pics/trailers/tr1.jpg', dpi='figure')
         plt.close()
 
     def build_trailer_visual2(self):
@@ -27,7 +27,7 @@ class Ops_Visual:
             title = 'Utlization by Trailer Nunmber'
             emp_barchart = BarChart(title, data_group, 'Days', 'Trailer Number')
             plt = emp_barchart.build_mult()
-            plt.savefig('pics/trailers/tr2_{}.jpg'.format(k))
+            plt.savefig('pics/trailers/tr2_{}.jpg'.format(k), dpi='figure')
             plt.close()
 
     def build_manpower_visual1(self):
