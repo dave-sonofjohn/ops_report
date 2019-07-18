@@ -39,7 +39,7 @@ class PDF(FPDF):
         self.cell(60)
         self.cell(50, 10, str(now)[:10])
         # Line break
-        self.ln(20)
+        self.ln(17)
 
     # Page footer
     def footer(self):
@@ -53,8 +53,9 @@ class PDF(FPDF):
     def build_header_data(self):
         header_file = open('../jpg_builder/media/header/header_data.pkl', 'rb')
         header_data = pickle.load(header_file)
-        print(header_data)
         
+        self.line(20,25,210-20,25)
+
         self.cell(40)
         self.cell(10,10,'{0} - {1}'.format(header_data.index[0], header_data['Total Frac Jobs']))   
 
@@ -79,7 +80,14 @@ class PDF(FPDF):
         self.cell(40)
         self.cell(10,10,'{0} - {1}'.format(header_data.index[6], header_data['Total Stages Fracked']))
         
-        
+        self.line(20,52,210-20,52)
+
+    def build_frac_section(self):
+        self.image('../jpg_builder/media/frac/num_trips.jpg', -10, 60, 100, 50)
+        self.image('../jpg_builder/media/frac/job_forms.jpg', 100, 60, 90, 60)
+        self.image('../jpg_builder/media/frac/job_depths.jpg', 10, 125, 100, 50)
+        self.image('../jpg_builder/media/frac/stg_bd.jpg', 100, 125, 100, 50)
+        self.image('../jpg_builder/media/frac/stg_times.jpg', 40, 185, 150, 90)
 
 
 if __name__ == '__main__':
@@ -89,6 +97,8 @@ if __name__ == '__main__':
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.build_header_data()
+    pdf.build_frac_section()
+    pdf.add_page()
     # pdf.set_font('Times', '', 12)
     # for i in range(1, 41):
     #     pdf.cell(0, 10, 'Printing line number ' + str(i), 0, 1)
