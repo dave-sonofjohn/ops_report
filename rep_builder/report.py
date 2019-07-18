@@ -17,6 +17,16 @@ def get_title():
     return(title)
 
 class PDF(FPDF):
+    def get_title(self):
+        parser = argparse.ArgumentParser()
+    
+        parser.add_argument('-ti', '--title', type=str, required=True, 
+        help='Enter The Header Title.')
+        
+        args = vars(parser.parse_args())
+        self.title = args['title']
+
+        return(self.title)
 
     def header(self):
         now = datetime.datetime.now()
@@ -24,12 +34,12 @@ class PDF(FPDF):
         self.image('./pics/kob_logo.png', 10, 8, 33)
         
         # Title
-        self.set_font('Arial', 'B', 12)
+        self.set_font('Arial', 'B', 10)
         self.cell(80)
-        self.cell(30, 10, 'Service Quality Report', 0, 0, 'C')
+        self.cell(30, 10, '{}\nService Quality Report'.format(self.title), 0, 0, 'C')
         
         # Date
-        self.set_font('Arial', '', 10)
+        self.set_font('Arial', '', 8)
         self.cell(60)
         self.cell(50, 10, str(now)[:10])
         
@@ -45,13 +55,10 @@ class PDF(FPDF):
         # Page number
         self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
 
-# Instantiation of inherited class
-
-
 if __name__ == '__main__':
 
-    title = get_title()
     pdf = PDF()
+    pdf.get_title()
     pdf.alias_nb_pages()
     pdf.add_page()
     pdf.set_font('Times', '', 12)
