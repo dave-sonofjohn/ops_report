@@ -129,7 +129,7 @@ def build_ops_incidents_query3(query_range):
 def build_header_query(query_range):
     return 'SELECT\
         SUM(CASE WHEN fjs_id IS NOT NULL THEN 1 ELSE 0 END) AS \'Total Frac Jobs\',\
-        SUM(CASE WHEN num_trips > 1 THEN 1 ELSE 0 END) AS \'Total Kobold Tool Runs\',\
+        SUM(num_trips) AS \'Total Kobold Tool Runs\',\
         SUM(time_inhole) AS \'Time In Hole (hrs)\',\
         SUM(unacc_time) AS \'NPT (hrs)\',\
         SUM(tmd) * 2 AS \'In Hole Distance Travelled (m)\',\
