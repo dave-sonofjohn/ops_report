@@ -89,6 +89,34 @@ class PDF(FPDF):
         self.image('../jpg_builder/media/frac/stg_bd.jpg', 100, 125, 100, 50)
         self.image('../jpg_builder/media/frac/stg_times.jpg', 40, 185, 150, 90)
 
+    def build_ops_inc_section(self):
+        self.image('../jpg_builder/media/ops_incidents/ops1.jpg', 10, 30, 130, 65)
+        self.image('../jpg_builder/media/ops_incidents/ops2.jpg', 30, 100, 130, 65)
+        self.image('../jpg_builder/media/ops_incidents/ops3.jpg', 30, 170, 130, 65)
+
+    def build_manpower_section(self):
+        self.image('../jpg_builder/media/manpower/mp1.jpg', 60, 20, 100, 60)
+        self.image('../jpg_builder/media/manpower/mp2_0.jpg', 30, 70, 150, 60)
+        self.image('../jpg_builder/media/manpower/mp2_1.jpg', 30, 130, 150, 60)
+        self.image('../jpg_builder/media/manpower/mp2_2.jpg', 30, 185, 150, 60)
+        pdf.add_page()
+        self.image('../jpg_builder/media/manpower/mp2_3.jpg', 30, 20, 150, 60)
+        self.image('../jpg_builder/media/manpower/mp2_4.jpg', 30, 80, 150, 60)
+        self.image('../jpg_builder/media/manpower/mp2_5.jpg', 30, 140, 150, 60)
+
+    def build_trailer_section(self):
+        self.image('../jpg_builder/media/trailers/tr1.jpg', 60, 30, 80, 50)
+        self.image('../jpg_builder/media/trailers/tr2_0.jpg', 30, 80, 150, 60)
+        self.image('../jpg_builder/media/trailers/tr2_1.jpg', 30, 140, 150, 60)
+        self.image('../jpg_builder/media/trailers/tr2_2.jpg', 30, 200, 150, 60)
+        pdf.add_page()
+        self.image('../jpg_builder/media/trailers/tr2_3.jpg', 30, 30, 150, 60)
+        self.image('../jpg_builder/media/trailers/tr2_4.jpg', 30, 90, 150, 60)
+        
+
+
+
+
 
 if __name__ == '__main__':
 
@@ -99,11 +127,11 @@ if __name__ == '__main__':
     pdf.build_header_data()
     pdf.build_frac_section()
     pdf.add_page()
-    # pdf.set_font('Times', '', 12)
-    # for i in range(1, 41):
-    #     pdf.cell(0, 10, 'Printing line number ' + str(i), 0, 1)
-    pdf.output('tuto2.pdf', 'F')
-
-
-
+    pdf.build_ops_inc_section()
+    pdf.add_page()
+    pdf.build_manpower_section()
+    pdf.add_page()
+    pdf.build_trailer_section()
+    
+    pdf.output('{}_sqr.pdf'.format(pdf.get_title()), 'F')
 
