@@ -68,12 +68,13 @@ class BarChart:
 
     def build_single(self):
         fig, ax = plt.subplots(figsize=(8,4))
-        ax = self.ds[list(self.ds.columns.values)].plot(kind='bar', width=0.5, align='center', title=self.title, figsize=(12, 9), legend=True, fontsize=8)
+        ax = self.ds[list(self.ds.columns.values)].plot(kind='bar', width=0.5, align='center', figsize=(12, 9), legend=True, fontsize=10)
        
-        ax.set_xlabel(self.x_axis, fontsize=8)
+        ax.set_title(self.title, fontsize=16)
+        ax.set_xlabel(self.x_axis, fontsize=10)
         ax.set_xticklabels(self.ds.index, wrap=True, rotation=45)
         
-        ax.set_ylabel(self.y_axis, fontsize=8)
+        ax.set_ylabel(self.y_axis, fontsize=10)
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
 
         plt.gcf().subplots_adjust(left=0.1, right=0.75, top=0.9)

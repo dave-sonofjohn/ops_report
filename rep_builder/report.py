@@ -83,26 +83,25 @@ class PDF(FPDF):
         self.line(20,52,210-20,52)
 
     def build_frac_section(self):
-        self.image('../jpg_builder/media/frac/num_trips.jpg', -10, 60, 100, 50)
+        self.image('../jpg_builder/media/frac/num_trips.jpg', 0, 60, 100, 50)
         self.image('../jpg_builder/media/frac/job_forms.jpg', 100, 60, 90, 60)
         self.image('../jpg_builder/media/frac/job_depths.jpg', 10, 125, 100, 50)
         self.image('../jpg_builder/media/frac/stg_bd.jpg', 100, 125, 100, 50)
-        self.image('../jpg_builder/media/frac/stg_times.jpg', 40, 185, 150, 90)
+        self.image('../jpg_builder/media/frac/stg_times.jpg', 50, 180, 130, 97.5)
 
     def build_ops_inc_section(self):
-        self.image('../jpg_builder/media/ops_incidents/ops1.jpg', 10, 30, 130, 65)
-        self.image('../jpg_builder/media/ops_incidents/ops2.jpg', 30, 100, 130, 65)
-        self.image('../jpg_builder/media/ops_incidents/ops3.jpg', 30, 170, 130, 65)
+        self.image('../jpg_builder/media/ops_incidents/ops1.jpg', 30, 25, 130, 65)
+        self.image('../jpg_builder/media/ops_incidents/ops2.jpg', 55, 90, 120, 90)
+        self.image('../jpg_builder/media/ops_incidents/ops3.jpg', 30, 190, 130, 65)
 
     def build_manpower_section(self):
         self.image('../jpg_builder/media/manpower/mp1.jpg', 60, 20, 100, 60)
-        self.image('../jpg_builder/media/manpower/mp2_0.jpg', 30, 70, 150, 60)
-        self.image('../jpg_builder/media/manpower/mp2_1.jpg', 30, 130, 150, 60)
-        self.image('../jpg_builder/media/manpower/mp2_2.jpg', 30, 185, 150, 60)
+        self.image('../jpg_builder/media/manpower/mp2_0.jpg', 15, 70, 187.5, 75)
+        self.image('../jpg_builder/media/manpower/mp2_1.jpg', 15, 150, 187.5, 75)
         pdf.add_page()
-        self.image('../jpg_builder/media/manpower/mp2_3.jpg', 30, 20, 150, 60)
-        self.image('../jpg_builder/media/manpower/mp2_4.jpg', 30, 80, 150, 60)
-        self.image('../jpg_builder/media/manpower/mp2_5.jpg', 30, 140, 150, 60)
+        self.image('../jpg_builder/media/manpower/mp2_2.jpg', 15, 30, 187.5, 75)
+        self.image('../jpg_builder/media/manpower/mp2_3.jpg', 15, 110, 187.5, 75)
+        self.image('../jpg_builder/media/manpower/mp2_4.jpg', 15, 190, 187.5, 75)
 
     def build_trailer_section(self):
         self.image('../jpg_builder/media/trailers/tr1.jpg', 60, 30, 80, 50)
