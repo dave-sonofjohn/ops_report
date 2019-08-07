@@ -74,7 +74,7 @@ def build_ops_incidents_query1(query_range):
         SUM(CASE WHEN severity = \'Major\' THEN 1 ELSE 0 END) AS \'Major\',\
         SUM(CASE WHEN severity = \'Catastrophic\' THEN 1 ELSE 0 END) AS \'Catastrophic\'\
         FROM ops_inc_tracking\
-        WHERE kobold_resp = \'Yes\'\
+        WHERE kobold_resp = \'Yes\' OR kobold_resp = \'Unknown\'\
         AND inc_date >= \'{0}\'\
         AND inc_date <= \'{1}\';'.format(query_range['start'], query_range['end'])
 
@@ -86,7 +86,7 @@ def build_ops_incidents_query2(query_range):
         SUM(CASE WHEN severity = \'Major\' THEN 1 ELSE 0 END) AS \'Major\',\
         SUM(CASE WHEN severity = \'Catastrophic\' THEN 1 ELSE 0 END) AS \'Catastrophic\'\
         FROM ops_inc_tracking\
-        WHERE kobold_resp = \'Yes\'\
+        WHERE kobold_resp = \'Yes\' OR kobold_resp = \'Unknown\'\
         AND inc_date >= DATEADD(month, -2, \'{0}\')\
         AND inc_date <= \'{1}\'\
         GROUP BY DATENAME(month, inc_date)\
@@ -122,7 +122,7 @@ def build_ops_incidents_query3(query_range):
         SUM(CASE WHEN inc_type = \'Frac\' THEN 1 ELSE 0 END) AS \'Frac\',\
         SUM(CASE WHEN inc_type = \'Other\' THEN 1 ELSE 0 END) AS \'Other\'\
         FROM ops_inc_tracking\
-        WHERE kobold_resp = \'Yes\'\
+        WHERE kobold_resp = \'Yes\' OR kobold_resp = \'Unknown\'\
         AND inc_date >= \'{0}\'\
         AND inc_date <= \'{1}\';'.format(query_range['start'], query_range['end'])
 
